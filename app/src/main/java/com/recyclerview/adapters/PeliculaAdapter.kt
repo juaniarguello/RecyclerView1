@@ -4,28 +4,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.recyclerview.R
 import com.recyclerview.entities.Pelicula
 
-class PeliculaAdapter(private var peliculasList: MutableList<Pelicula>): RecyclerView.Adapter<PeliculaAdapter.PeliculaHolder>() {
+class PeliculaAdapter(
+    private var peliculasList: MutableList<Pelicula>,
+    val onItemClick: (Int) -> Boolean
+) :
+    RecyclerView.Adapter<PeliculaAdapter.PeliculaHolder>() {
 
-
-    class PeliculaHolder(v: View) : RecyclerView.ViewHolder(v){
-        //HOLDER REPRESENTA UNA VISTA, POR ESO RECIBE UNA VIEW
-        private var view: View
-        init {
-            this.view = v
-        }
-        fun setName(name: String){
-            val txt: TextView = view.findViewById(R.id.txt_name_item)
-            txt.text = name
-        }
+    companion object {
+        private val TAG = "PeliculaAdapter"
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PeliculaHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_pelicula, parent, false)
-        return(PeliculaAdapter.PeliculaHolder(view))
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_pelicula, parent, false)
+        return (PeliculaHolder(view))
     }
 
     override fun getItemCount(): Int {
@@ -34,5 +31,29 @@ class PeliculaAdapter(private var peliculasList: MutableList<Pelicula>): Recycle
 
     override fun onBindViewHolder(holder: PeliculaHolder, position: Int) {
         holder.setName(peliculasList[position].nombre)
+    }
+
+    fun setData(newData: ArrayList<Pelicula>) {
+        this.peliculasList = newData
+        this.notifyDataSetChanged()
+    }
+
+    // -------------------- Clase Pelicula Holder --------------------
+    class PeliculaHolder(v: View) : RecyclerView.ViewHolder(v) {
+        //HOLDER REPRESENTA UNA VISTA, POR ESO RECIBE UNA VIEW
+        private val view: View
+
+        init {
+            this.view = v
+        }
+
+        fun setName(name: String) {
+            val txt: TextView = view.findViewById(R.id.txt_name_item)
+            txt.text = name
+        }
+
+        fun getCardLayout(): CardView {
+            return view.findViewById(R.id.card_package_item)
+        }
     }
 }

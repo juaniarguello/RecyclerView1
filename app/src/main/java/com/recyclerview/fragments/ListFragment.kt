@@ -7,22 +7,23 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.recyclerview.R
 import com.recyclerview.adapters.PeliculaAdapter
 import com.recyclerview.entities.Pelicula
 
-class listFragment : Fragment() {
+class ListFragment : Fragment() {
 
     lateinit var v: View
 
-    lateinit var  recPeliculas : RecyclerView
+    lateinit var recPeliculas : RecyclerView
     private lateinit var linearLayoutManager: LinearLayoutManager
 
     var peliculas : MutableList<Pelicula> = ArrayList<Pelicula>()
     private lateinit var peliculasListAdapter: PeliculaAdapter
 
     companion object{
-        fun newInstance() = listFragment()
+        fun newInstance() = ListFragment()
     }
 
     override fun onCreateView(
@@ -51,7 +52,15 @@ class listFragment : Fragment() {
         linearLayoutManager = LinearLayoutManager(context)
         recPeliculas.layoutManager = linearLayoutManager
 
-        peliculasListAdapter = PeliculaAdapter(peliculas)
+        peliculasListAdapter = PeliculaAdapter(peliculas) { x ->
+            onItemClick(x)
+        }
+        // peliculasListAdapter = PeliculaAdapter(peliculas)
         recPeliculas.adapter = peliculasListAdapter
+    }
+
+    fun onItemClick ( position : Int ) : Boolean {
+        Snackbar.make(v,position.toString(),Snackbar.LENGTH_SHORT).show()
+        return true
     }
 }
