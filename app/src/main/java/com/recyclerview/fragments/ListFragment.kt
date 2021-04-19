@@ -20,7 +20,7 @@ class ListFragment : Fragment() {
     private lateinit var linearLayoutManager: LinearLayoutManager
 
     var peliculas : MutableList<Pelicula> = ArrayList<Pelicula>()
-    private lateinit var peliculasListAdapter: PeliculaAdapter
+    //private lateinit var peliculasListAdapter: PeliculaAdapter
 
     companion object{
         fun newInstance() = ListFragment()
@@ -48,19 +48,18 @@ class ListFragment : Fragment() {
         peliculas.add(Pelicula("Busqueda implacable", 2012))
         peliculas.add(Pelicula("Buscando a Nemo", 2006))
 
+
         recPeliculas.setHasFixedSize(true)
         linearLayoutManager = LinearLayoutManager(context)
         recPeliculas.layoutManager = linearLayoutManager
 
-        peliculasListAdapter = PeliculaAdapter(peliculas) { x ->
-            onItemClick(x)
-        }
-        // peliculasListAdapter = PeliculaAdapter(peliculas)
+
+        var peliculasListAdapter = PeliculaAdapter(peliculas)
         recPeliculas.adapter = peliculasListAdapter
     }
 
-    fun onItemClick ( position : Int ) : Boolean {
+    /*fun onItemClick ( position : Int ) : Boolean {
         Snackbar.make(v,position.toString(),Snackbar.LENGTH_SHORT).show()
         return true
-    }
+    }*/
 }
